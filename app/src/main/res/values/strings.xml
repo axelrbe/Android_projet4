@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Lamzone</string>
+    <string name="title">Ma réu</string>
+    <string name="icon_filtered_list">icon_filtered_list</string>
+    <string name="add_réu_btn">add_réu_btn</string>
+    <string name="meeting_image">meeting_image</string>
+    <string name="meeting_info">meeting_info</string>
+    <string name="delete_meeting_btn">delete_meeting_btn</string>
+    <string name="new_meeting">Nouvelle Réunion</string>
+    <string name="meeting_location">Lieux de la réunion</string>
+    <string name="location">Location</string>
+    <string name="meeting_time">Heure de la réunion</string>
+    <string name="time">Time</string>
+    <string name="subject">Subject</string>
+    <string name="meeting_subject">Sujet de la réunion</string>
+    <string name="participants_emails">Emails des participants</string>
+    <string name="participants">Participants</string>
+    <string name="add_meeting_btn">add_meeting_btn</string>
+    <string name="email_separating_precision">(Séparé par une virgule)</string>
+    <string name="loc">loc</string>
+</resources>
