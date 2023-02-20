@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddMeetingPage"
+    android:background="@color/header_blue"
+    android:id="@+id/add_meeting_relativeLayout">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/arrow_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_arrow_back"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="6dp"/>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="40dp"
+            app:cardElevation="20dp"
+            app:cardCornerRadius="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/meeting_location"
+                    android:textStyle="bold"
+                    android:textSize="26sp"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:padding="6dp"
+                    android:background="@color/header_blue" />
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editText_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textStyle="bold"
+                    android:textSize="26sp"
+                    android:gravity="center"
+                    android:hint="@string/location"
+                    android:textColorHint="@color/grey"
+                    android:autofillHints="@string/meeting_location"
+                    android:inputType="text"
+                    android:layout_margin="6dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/meeting_time"
+                    android:textStyle="bold"
+                    android:textSize="26sp"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:padding="6dp"
+                    android:background="@color/header_blue"/>
+
+
+                <EditText
+                    android:id="@+id/editText_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textStyle="bold"
+                    android:textSize="26sp"
+                    android:gravity="center"
+                    android:hint="@string/time"
+                    android:textColorHint="@color/grey"
+                    android:autofillHints="@string/meeting_time"
+                    android:layout_margin="6dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/meeting_subject"
+                    android:textStyle="bold"
+                    android:textSize="26sp"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:padding="6dp"
+                    android:background="@color/header_blue"/>
+
+                <EditText
+                    android:id="@+id/editText_subject"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textStyle="bold"
+                    android:textSize="26sp"
+                    android:gravity="center"
+                    android:hint="@string/subject"
+                    android:textColorHint="@color/grey"
+                    android:autofillHints="@string/meeting_time"
+                    android:inputType="text"
+                    android:layout_margin="6dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/participants_emails"
+                    android:textStyle="bold"
+                    android:textSize="26sp"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:padding="6dp"
+                    android:background="@color/header_blue"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/email_separating_precision"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:padding="6dp"
+                    android:background="@color/header_blue"/>
+
+                <EditText
+                    android:id="@+id/editText_participants"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textStyle="bold"
+                    android:textSize="26sp"
+                    android:gravity="center"
+                    android:hint="@string/participants"
+                    android:textColorHint="@color/grey"
+                    android:autofillHints="@string/meeting_time"
+                    android:inputType="text"
+                    android:layout_margin="6dp"/>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_meeting_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:backgroundTint="@color/white"
+            android:contentDescription="@string/add_meeting_btn"
+            android:src="@drawable/ic_send"
+            android:layout_margin="20dp"
+            app:fabSize="auto"
+            app:tint="@color/light_blue" />
+
+    </LinearLayout>
+</LinearLayout>
