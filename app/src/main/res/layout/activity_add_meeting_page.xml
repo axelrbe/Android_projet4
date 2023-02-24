@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,13 +10,14 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <ImageView
             android:id="@+id/arrow_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/go_back_home"
             android:src="@drawable/ic_arrow_back"
             android:layout_marginStart="6dp"
             android:layout_marginTop="6dp"/>
@@ -38,7 +39,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/meeting_location"
+                    android:text="@string/room_choice"
                     android:textStyle="bold"
                     android:textSize="26sp"
                     android:textColor="@color/white"
@@ -46,18 +47,11 @@
                     android:padding="6dp"
                     android:background="@color/header_blue" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editText_location"
+                <Spinner
+                    android:id="@+id/spinner_rooms"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textStyle="bold"
-                    android:textSize="26sp"
-                    android:gravity="center"
-                    android:hint="@string/location"
-                    android:textColorHint="@color/grey"
-                    android:autofillHints="@string/meeting_location"
-                    android:inputType="text"
-                    android:layout_margin="6dp"/>
+                    android:layout_height="48dp"
+                    android:contentDescription="@string/selecting_room_spinner"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -70,16 +64,29 @@
                     android:padding="6dp"
                     android:background="@color/header_blue"/>
 
-
-                <EditText
-                    android:id="@+id/editText_time"
+                <Button
+                    android:id="@+id/showDatePickerBtn"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textStyle="bold"
                     android:textSize="26sp"
                     android:gravity="center"
-                    android:hint="@string/time"
-                    android:textColorHint="@color/grey"
+                    android:text="@string/date"
+                    android:textColor="@color/header_blue"
+                    android:background="@android:color/transparent"
+                    android:autofillHints="Date de la réunion"
+                    android:layout_margin="6dp" />
+
+                <Button
+                    android:id="@+id/showTimePickerBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textStyle="bold"
+                    android:textSize="26sp"
+                    android:gravity="center"
+                    android:text="@string/time"
+                    android:textColor="@color/header_blue"
+                    android:background="@android:color/transparent"
                     android:autofillHints="@string/meeting_time"
                     android:layout_margin="6dp" />
 
@@ -139,7 +146,7 @@
                     android:hint="@string/participants"
                     android:textColorHint="@color/grey"
                     android:autofillHints="@string/meeting_time"
-                    android:inputType="text"
+                    android:inputType="textEmailAddress"
                     android:layout_margin="6dp"/>
 
             </LinearLayout>
@@ -159,4 +166,4 @@
             app:tint="@color/light_blue" />
 
     </LinearLayout>
-</LinearLayout>
+</ScrollView>

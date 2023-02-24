@@ -11,11 +11,16 @@
     <string name="location">Location</string>
     <string name="meeting_time">Heure de la réunion</string>
     <string name="time">Time</string>
-    <string name="subject">Subject</string>
+    <string name="subject">Sujet</string>
     <string name="meeting_subject">Sujet de la réunion</string>
     <string name="participants_emails">Emails des participants</string>
     <string name="participants">Participants</string>
     <string name="add_meeting_btn">add_meeting_btn</string>
     <string name="email_separating_precision">(Séparé par une virgule)</string>
     <string name="loc">loc</string>
+    <string name="go_back_home">go back Home</string>
+    <string name="choose_a_room">Choose a room</string>
+    <string name="selecting_room_spinner">selecting room spinner</string>
+    <string name="date">Date</string>
+    <string name="room_choice">Choisir une salle de réunion</string>
 </resources>

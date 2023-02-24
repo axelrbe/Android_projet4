@@ -1,21 +1,20 @@
 package com.example.lamzone.Model;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class Meeting implements Serializable {
 
-    private final long id;
     private String subject;
-    private String time;
-    private String location;
+    private Date date;
     private String participants;
     private Room room;
 
-    public Meeting(long id, String subject, String time, String location, String participants, Room room) {
-        this.id = id;
+    public Meeting(String subject, Date date, String participants, Room room) {
         this.subject = subject;
-        this.time = time;
-        this.location = location;
+        this.date = date;
         this.participants = participants;
         this.room = room;
     }
@@ -28,20 +27,12 @@ public class Meeting implements Serializable {
         this.subject = subject;
     }
 
-    public String getTime() {
-        return time;
+    public Date getDate() {
+        return date;
     }
 
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public String getParticipants() {
@@ -55,4 +46,18 @@ public class Meeting implements Serializable {
     public Room getRoom() { return room; }
 
     public void setRoom(Room room) { this.room = room; }
+
+    public String getDateFormatted() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM", Locale.getDefault());
+        String formattedDate = sdf.format(date);
+        return formattedDate;
+    }
+
+    public StringBuilder getTimeFormatted() {
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        String time = sdf.format(this.getDate());
+        StringBuilder formattedTime = new StringBuilder(time);
+        formattedTime.setCharAt(2, 'H');
+        return formattedTime;
+    }
 }

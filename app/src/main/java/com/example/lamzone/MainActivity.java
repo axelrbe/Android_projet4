@@ -2,7 +2,6 @@ package com.example.lamzone;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,14 +18,13 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     FloatingActionButton addMeetingBtn;
     MeetingAdapter adapter;
-    MeetingApiService apiService = DI.getMeetingApiService();
+    MeetingApiService MeetingApiService = DI.getMeetingApiService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initList() {
-        List<Meeting> Meetings = apiService.getAllMeetings();
+        List<Meeting> Meetings = MeetingApiService.getAllMeetings();
         recyclerView.setAdapter(new MeetingAdapter(Meetings));
     }
 
@@ -72,13 +70,9 @@ public class MainActivity extends AppCompatActivity {
         EventBus.getDefault().unregister(this);
     }
 
-    /**
-     * Fired if the user clicks on a delete button
-     * @param event
-     */
     @Subscribe
     public void onDeleteNeighbour(DeleteMeetingEvent event) {
-        apiService.deleteMeeting(event.meeting);
+        MeetingApiService.deleteMeeting(event.meeting);
         initList();
     }
 

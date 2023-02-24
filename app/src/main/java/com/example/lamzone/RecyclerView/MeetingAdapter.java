@@ -37,7 +37,7 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Meeting meeting = allMeetings.get(position);
 
-        holder.meetingInfo.setText(String.format("%s-%s-%s", meeting.getLocation(), meeting.getTime(), meeting.getName()));
+        holder.meetingInfo.setText(String.format("%s-%s-%s-%s", meeting.getName(), meeting.getDateFormatted(), meeting.getTimeFormatted(), meeting.getRoom().getRoomName()));
         holder.meetingParticipants.setText(meeting.getParticipants());
         Glide.with(holder.color.getContext())
                 .load(meeting.getRoom().getColor())

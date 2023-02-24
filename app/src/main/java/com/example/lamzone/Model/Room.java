@@ -1,5 +1,6 @@
 package com.example.lamzone.Model;
 
+
 public class Room {
 
     private final int color;
