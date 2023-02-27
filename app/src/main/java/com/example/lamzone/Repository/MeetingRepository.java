@@ -21,5 +21,8 @@ public class MeetingRepository {
     public void deleteMeeting(Meeting meeting) {
         apiService.deleteMeeting(meeting);
     }
+
     public List<Room> getMeetingsRoomsList() {return apiService.getAllRooms();}
+
+    public List<String> getRoomsNamesList() {return apiService.getAllRoomsNames();}
 }

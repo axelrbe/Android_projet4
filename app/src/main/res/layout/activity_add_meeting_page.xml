@@ -47,10 +47,25 @@
                     android:padding="6dp"
                     android:background="@color/header_blue" />
 
+                <Button
+                    android:id="@+id/open_spinner_room_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:text="@string/room_spiner_btn"
+                    android:textColor="@color/header_blue"
+                    android:textStyle="bold"
+                    android:textAllCaps="false"
+                    android:textSize="26sp"
+                    android:layout_gravity="center"
+                    android:drawableEnd="@drawable/baseline_meeting_room_24"/>
+
                 <Spinner
                     android:id="@+id/spinner_rooms"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
                     android:contentDescription="@string/selecting_room_spinner"/>
 
                 <TextView
@@ -66,12 +81,14 @@
 
                 <Button
                     android:id="@+id/showDatePickerBtn"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:textStyle="bold"
                     android:textSize="26sp"
-                    android:gravity="center"
                     android:text="@string/date"
+                    android:textAllCaps="false"
+                    android:layout_gravity="center"
+                    android:drawableEnd="@drawable/baseline_edit_calendar_24"
                     android:textColor="@color/header_blue"
                     android:background="@android:color/transparent"
                     android:autofillHints="Date de la réunion"
@@ -79,13 +96,15 @@
 
                 <Button
                     android:id="@+id/showTimePickerBtn"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:textStyle="bold"
                     android:textSize="26sp"
-                    android:gravity="center"
+                    android:layout_gravity="center"
                     android:text="@string/time"
+                    android:textAllCaps="false"
                     android:textColor="@color/header_blue"
+                    android:drawableEnd="@drawable/baseline_access_time_24"
                     android:background="@android:color/transparent"
                     android:autofillHints="@string/meeting_time"
                     android:layout_margin="6dp" />
@@ -109,7 +128,8 @@
                     android:textSize="26sp"
                     android:gravity="center"
                     android:hint="@string/subject"
-                    android:textColorHint="@color/grey"
+                    android:textColorHint="@color/header_blue"
+                    android:textColor="@color/header_blue"
                     android:autofillHints="@string/meeting_time"
                     android:inputType="text"
                     android:layout_margin="6dp"/>
@@ -144,7 +164,8 @@
                     android:textSize="26sp"
                     android:gravity="center"
                     android:hint="@string/participants"
-                    android:textColorHint="@color/grey"
+                    android:textColor="@color/header_blue"
+                    android:textColorHint="@color/header_blue"
                     android:autofillHints="@string/meeting_time"
                     android:inputType="textEmailAddress"
                     android:layout_margin="6dp"/>

@@ -20,6 +20,16 @@ public class DummyMeetingApiService implements MeetingApiService {
     public List<Room> getAllRooms() {return allRooms;}
 
     @Override
+    public List<String> getAllRoomsNames() {
+        List<String> roomsNames = new ArrayList<>();
+
+        for (int i = 0; i < allRooms.size(); i++) {
+            roomsNames.add(allRooms.get(i).getRoomName());
+        }
+        return roomsNames;
+    }
+
+    @Override
     public void deleteMeeting(Meeting meeting) {
         allMeetings.remove(meeting);
     }

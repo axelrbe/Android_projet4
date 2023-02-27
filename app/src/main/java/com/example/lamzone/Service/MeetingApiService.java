@@ -12,6 +12,8 @@ public interface MeetingApiService {
 
     List<Room> getAllRooms();
 
+    List<String> getAllRoomsNames();
+
     // Delete a meeting
     void deleteMeeting(Meeting meeting);
 

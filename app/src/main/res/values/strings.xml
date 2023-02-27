@@ -23,4 +23,5 @@
     <string name="selecting_room_spinner">selecting room spinner</string>
     <string name="date">Date</string>
     <string name="room_choice">Choisir une salle de réunion</string>
+    <string name="room_spiner_btn">Salles</string>
 </resources>

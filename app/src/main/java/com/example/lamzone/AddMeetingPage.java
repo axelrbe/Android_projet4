@@ -9,11 +9,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,14 +27,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 public class AddMeetingPage extends AppCompatActivity {
 
     EditText meetingSubject, meetingParticipants;
-    Button meetingTime, meetingDate;
+    Button meetingTime, meetingDate, meetingRoomBtn;
     ImageView arrowBack;
-    private Room room;
+    private Room meetingRoom;
+    String roomName;
     FloatingActionButton addMeetingBtn;
     private MeetingApiService meetingApiService;
     MeetingRepository meetingRepository;
@@ -60,6 +58,8 @@ public class AddMeetingPage extends AppCompatActivity {
         meetingDate = findViewById(R.id.showDatePickerBtn);
         meetingTime = findViewById(R.id.showTimePickerBtn);
         meetingParticipants = findViewById(R.id.editText_participants);
+        spinner = findViewById(R.id.spinner_rooms);
+        meetingRoomBtn = findViewById(R.id.open_spinner_room_btn);
         addMeetingBtn = findViewById(R.id.add_meeting_btn);
         arrowBack = findViewById(R.id.arrow_back);
 
@@ -68,25 +68,32 @@ public class AddMeetingPage extends AppCompatActivity {
             startActivity(intent);
         });
 
-        addMeetingBtn.setOnClickListener(v -> {
-            addNewMeeting();
-        });
+        addMeetingBtn.setOnClickListener(v -> addNewMeeting());
 
-        setRoomsInSpinner();
+        meetingRoomBtn.setOnClickListener(v -> {
+            spinner.setVisibility(View.VISIBLE);
+            setRoomsInSpinner();
+        });
 
         meetingTime.setOnClickListener(v -> setTimePickerData());
         meetingDate.setOnClickListener(v -> setDatePickerData());
     }
 
     private void setRoomsInSpinner() {
-        spinner = findViewById(R.id.spinner_rooms);
         List<Room> rooms = meetingRepository.getMeetingsRoomsList();
+        List<String> roomsNames = meetingRepository.getRoomsNamesList();
         spinner.setAdapter(new ArrayAdapter<>(getApplicationContext()
-                , android.R.layout.simple_spinner_dropdown_item, rooms));
+                , R.layout.spinner_items_design, roomsNames));
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                room = (Room) spinner.getSelectedItem();
+                roomName = (String) spinner.getSelectedItem();
+
+                for (int i = 0; i < rooms.size(); i++) {
+                    if(roomName.equals(rooms.get(i).getRoomName())) {
+                        meetingRoom = rooms.get(i);
+                    }
+                }
             }
 
             @Override
@@ -134,12 +141,8 @@ public class AddMeetingPage extends AppCompatActivity {
             selectedTime = hour + "h0" + minute;
         }
 
-         if(meetingTime == null) {
-            Toast.makeText(this, "Renseigner une heure", Toast.LENGTH_SHORT).show();
-        } else if(meetingSubject == null) {
-            Toast.makeText(this, "Renseigner le sujet de la réunion", Toast.LENGTH_SHORT).show();
-        } else if(meetingParticipants == null) {
-            Toast.makeText(this, "Indiquer les participants", Toast.LENGTH_SHORT).show();
+         if(meetingRoom == null || meetingTime == null || meetingDate == null || meetingSubject == null || meetingParticipants == null) {
+            Toast.makeText(this, "Tout les champs doivent être remplis", Toast.LENGTH_SHORT).show();
         } else {
              calendar.set(year, month, day, hour, minute);
              date = calendar.getTime();
@@ -148,7 +151,7 @@ public class AddMeetingPage extends AppCompatActivity {
                     meetingSubject.getText().toString(),
                     date,
                     meetingParticipants.getText().toString(),
-                    room
+                    meetingRoom
             );
             meetingApiService.createMeeting(meeting);
             startActivity(new Intent(AddMeetingPage.this, MainActivity.class));
