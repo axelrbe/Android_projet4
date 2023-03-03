@@ -37,8 +37,10 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Meeting meeting = allMeetings.get(position);
 
+        String allParticipantsEmails = String.format("%s,", meeting.getParticipants()).replace("[", "").replace("]", "");
+
         holder.meetingInfo.setText(String.format("%s-%s-%s-%s", meeting.getName(), meeting.getDateFormatted(), meeting.getTimeFormatted(), meeting.getRoom().getRoomName()));
-        holder.meetingParticipants.setText(meeting.getParticipants());
+        holder.meetingParticipants.setText(allParticipantsEmails);
         Glide.with(holder.color.getContext())
                 .load(meeting.getRoom().getColor())
                 .apply(RequestOptions.circleCropTransform())

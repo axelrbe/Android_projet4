@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,14 +16,19 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.example.lamzone.DI.DI;
 import com.example.lamzone.Model.Meeting;
+import com.example.lamzone.Model.Participant;
 import com.example.lamzone.Model.Room;
 import com.example.lamzone.Repository.MeetingRepository;
 import com.example.lamzone.Service.MeetingApiService;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -30,7 +36,8 @@ import java.util.Locale;
 
 public class AddMeetingPage extends AppCompatActivity {
 
-    EditText meetingSubject, meetingParticipants;
+    EditText meetingSubject;
+    ChipGroup meetingParticipants;
     Button meetingTime, meetingDate, meetingRoomBtn;
     ImageView arrowBack;
     private Room meetingRoom;
@@ -43,6 +50,8 @@ public class AddMeetingPage extends AppCompatActivity {
     String selectedTime;
     Calendar calendar;
     Date date;
+    List<Participant> allParticipants;
+    List<String> selectedParticipants;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +66,7 @@ public class AddMeetingPage extends AppCompatActivity {
         meetingSubject = findViewById(R.id.editText_subject);
         meetingDate = findViewById(R.id.showDatePickerBtn);
         meetingTime = findViewById(R.id.showTimePickerBtn);
-        meetingParticipants = findViewById(R.id.editText_participants);
+        meetingParticipants = findViewById(R.id.chip_group);
         spinner = findViewById(R.id.spinner_rooms);
         meetingRoomBtn = findViewById(R.id.open_spinner_room_btn);
         addMeetingBtn = findViewById(R.id.add_meeting_btn);
@@ -77,6 +86,7 @@ public class AddMeetingPage extends AppCompatActivity {
 
         meetingTime.setOnClickListener(v -> setTimePickerData());
         meetingDate.setOnClickListener(v -> setDatePickerData());
+        setParticipantsToChipGroup();
     }
 
     private void setRoomsInSpinner() {
@@ -134,7 +144,40 @@ public class AddMeetingPage extends AppCompatActivity {
         datePickerDialog.show();
     }
 
+    private void setParticipantsToChipGroup() {
+        ChipGroup chipGroup = findViewById(R.id.chip_group);
+
+        // Create a list of participants
+        allParticipants = meetingApiService.getAllParticipants();
+        selectedParticipants = new ArrayList<>();
+
+        // Add a chip for each participant
+        for (Participant participant : allParticipants) {
+            Chip chip = new Chip(this);
+            chip.setText(participant.getName());
+            chip.setCheckable(true);
+            chipGroup.addView(chip);
+        }
+    }
+
+    private void getAllSelectedParticipants() {
+        selectedParticipants = new ArrayList<>();
+
+        for (int i = 0; i < meetingParticipants.getChildCount(); i++) {
+            View participant = meetingParticipants.getChildAt(i);
+            if (participant instanceof Chip) {
+                Chip chip = (Chip) participant;
+                if (chip.isChecked()) {
+                    selectedParticipants.add(chip.getText().toString());
+                }
+            }
+        }
+    }
+
+
+
     private void addNewMeeting() {
+        getAllSelectedParticipants();
         if(minute >= 10) {
             selectedTime = hour + "h" + minute;
         } else {
@@ -150,7 +193,7 @@ public class AddMeetingPage extends AppCompatActivity {
             Meeting meeting = new Meeting(
                     meetingSubject.getText().toString(),
                     date,
-                    meetingParticipants.getText().toString(),
+                    selectedParticipants,
                     meetingRoom
             );
             meetingApiService.createMeeting(meeting);

@@ -1,6 +1,7 @@
 package com.example.lamzone.Service;
 
 import com.example.lamzone.Model.Meeting;
+import com.example.lamzone.Model.Participant;
 import com.example.lamzone.Model.Room;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ public class DummyMeetingApiService implements MeetingApiService {
 
     private final List<Meeting> allMeetings = MeetingGenerator.generateMeetings();
     private final List<Room> allRooms = MeetingGenerator.generateRooms();
+    private final List<Participant> allParticipants = MeetingGenerator.generateParticipants();
 
     @Override
     public List<Meeting> getAllMeetings() {
@@ -27,6 +29,21 @@ public class DummyMeetingApiService implements MeetingApiService {
             roomsNames.add(allRooms.get(i).getRoomName());
         }
         return roomsNames;
+    }
+
+    @Override
+    public List<Participant> getAllParticipants() {
+        return allParticipants;
+    }
+
+    @Override
+    public List<String> getAllParticipantsEmails() {
+        List<String> participantsEmails = new ArrayList<>();
+
+        for (int i = 0; i < allParticipants.size(); i++) {
+            participantsEmails.add(allParticipants.get(i).getEmail());
+        }
+        return participantsEmails;
     }
 
     @Override
