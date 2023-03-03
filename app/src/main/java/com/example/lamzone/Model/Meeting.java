@@ -3,16 +3,17 @@ package com.example.lamzone.Model;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class Meeting implements Serializable {
 
     private String subject;
     private Date date;
-    private String participants;
+    private List<String> participants;
     private Room room;
 
-    public Meeting(String subject, Date date, String participants, Room room) {
+    public Meeting(String subject, Date date, List<String> participants, Room room) {
         this.subject = subject;
         this.date = date;
         this.participants = participants;
@@ -27,19 +28,15 @@ public class Meeting implements Serializable {
         this.subject = subject;
     }
 
-    public Date getDate() {
-        return date;
-    }
+    public Date getDate() {return date;}
 
     public void setDate(Date date) {
         this.date = date;
     }
 
-    public String getParticipants() {
-        return participants;
-    }
+    public List<String> getParticipants() {return participants;}
 
-    public void setParticipants(String participants) {
+    public void setParticipants(List<String> participants) {
         this.participants = participants;
     }
 

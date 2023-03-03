@@ -156,19 +156,23 @@
                     android:padding="6dp"
                     android:background="@color/header_blue"/>
 
-                <EditText
-                    android:id="@+id/editText_participants"
+                <HorizontalScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textStyle="bold"
-                    android:textSize="26sp"
-                    android:gravity="center"
-                    android:hint="@string/participants"
-                    android:textColor="@color/header_blue"
-                    android:textColorHint="@color/header_blue"
-                    android:autofillHints="@string/meeting_time"
-                    android:inputType="textEmailAddress"
-                    android:layout_margin="6dp"/>
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chip_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:singleLine="true"
+                    app:chipSpacingHorizontal="8dp"
+                    app:chipSpacingVertical="8dp"
+                    app:selectionRequired="false" />
+
+                </HorizontalScrollView>
+
 
             </LinearLayout>
 
