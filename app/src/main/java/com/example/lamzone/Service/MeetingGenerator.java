@@ -43,6 +43,23 @@ public abstract class MeetingGenerator {
             new Participant("Anna@lamzone.fr","Anna", R.drawable.img_7)
     );
 
+    public static List<Participant> PARTICIPANT_LIST = Arrays.asList(
+            new Participant("Paul", "Paul@lamzone.fr"),
+            new Participant("Léa", "Léa@lamzone.fr"),
+            new Participant("Chloé", "Chloé@lamzone.fr"),
+            new Participant("Sandra", "Sandra@lamzone.fr"),
+            new Participant("Arthur","Arthur@lamzone.fr"),
+            new Participant("Clément", "Clément@lamzone.fr"),
+            new Participant("patrick", "patrick@lamzone.fr"),
+            new Participant("Josette", "Josette@lamzone.fr"),
+            new Participant("Martine", "Martine@lamzone.fr"),
+            new Participant("Julien", "Julien@lamzone.fr"),
+            new Participant("José", "José@lamzone.fr"),
+            new Participant("Alexandra", "Alexandra@lamzone.fr"),
+            new Participant("Luciette", "Luciette@lamzone.fr"),
+            new Participant("Clodine","Clodine@lamzone.fr")
+    );
+
     static List<Meeting> generateMeetings() {
         return new ArrayList<>(DUMMY_MEETINGS);
     }
