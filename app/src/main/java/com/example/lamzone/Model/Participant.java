@@ -1,12 +1,16 @@
 package com.example.lamzone.Model;
 
+import android.graphics.drawable.Drawable;
+
 public class Participant {
 
+    int image;
     private String name, email;
 
-    public Participant(String name, String email) {
-        this.name = name;
+    public Participant(String email, String name, int image) {
         this.email = email;
+        this.name = name;
+        this.image = image;
     }
 
     public String getName() {
@@ -24,4 +28,8 @@ public class Participant {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public int getImage() {return image;}
+
+    public void setImage(int image) {this.image = image;}
 }

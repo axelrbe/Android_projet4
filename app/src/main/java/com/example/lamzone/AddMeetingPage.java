@@ -1,11 +1,10 @@
 package com.example.lamzone;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -36,6 +35,7 @@ import java.util.Locale;
 
 public class AddMeetingPage extends AppCompatActivity {
 
+    public static final int Theme_Material_Dialog_Alert = 16974374;
     EditText meetingSubject;
     ChipGroup meetingParticipants;
     Button meetingTime, meetingDate, meetingRoomBtn;
@@ -47,11 +47,11 @@ public class AddMeetingPage extends AppCompatActivity {
     MeetingRepository meetingRepository;
     Spinner spinner;
     int year, month, day, hour, minute;
-    String selectedTime;
     Calendar calendar;
     Date date;
     List<Participant> allParticipants;
     List<String> selectedParticipants;
+    int duration = 45;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,8 +119,7 @@ public class AddMeetingPage extends AppCompatActivity {
             meetingTime.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, minute));
         };
 
-        int style = AlertDialog.THEME_HOLO_DARK;
-        TimePickerDialog timePickerDialog = new TimePickerDialog(this, style, onTimeSetListener, hour, minute, true);
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this, Theme_Material_Dialog_Alert, onTimeSetListener, hour, minute, true);
 
         timePickerDialog.setTitle("Select Time");
         timePickerDialog.show();
@@ -138,9 +137,7 @@ public class AddMeetingPage extends AppCompatActivity {
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        int style = AlertDialog.THEME_HOLO_DARK;
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, style, dateSetListener, year, month, day);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, Theme_Material_Dialog_Alert, dateSetListener, year, month, day);
         datePickerDialog.show();
     }
 
@@ -154,7 +151,13 @@ public class AddMeetingPage extends AppCompatActivity {
         // Add a chip for each participant
         for (Participant participant : allParticipants) {
             Chip chip = new Chip(this);
-            chip.setText(participant.getName());
+            chip.setText(participant.getEmail());
+            chip.setChipIcon(ContextCompat.getDrawable(this, participant.getImage()));
+            chip.setCheckedIcon(ContextCompat.getDrawable(this, R.drawable.baseline_check_24));
+            chip.setChipIconSize(110);
+            chip.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.header_blue)));
+            chip.setTextColor(ContextCompat.getColor(this , R.color.white));
+            chip.setTextSize(18);
             chip.setCheckable(true);
             chipGroup.addView(chip);
         }
@@ -174,25 +177,19 @@ public class AddMeetingPage extends AppCompatActivity {
         }
     }
 
-
-
     private void addNewMeeting() {
         getAllSelectedParticipants();
-        if(minute >= 10) {
-            selectedTime = hour + "h" + minute;
-        } else {
-            selectedTime = hour + "h0" + minute;
-        }
 
          if(meetingRoom == null || meetingTime == null || meetingDate == null || meetingSubject == null || meetingParticipants == null) {
-            Toast.makeText(this, "Tout les champs doivent être remplis", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.form_error, Toast.LENGTH_SHORT).show();
         } else {
              calendar.set(year, month, day, hour, minute);
              date = calendar.getTime();
 
-            Meeting meeting = new Meeting(
+             Meeting meeting = new Meeting(
                     meetingSubject.getText().toString(),
                     date,
+                    duration,
                     selectedParticipants,
                     meetingRoom
             );
