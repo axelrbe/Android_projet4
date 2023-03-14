@@ -5,13 +5,19 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +33,7 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -34,24 +41,26 @@ import java.util.List;
 import java.util.Locale;
 
 public class AddMeetingPage extends AppCompatActivity {
-
-    public static final int Theme_Material_Dialog_Alert = 16974374;
-    EditText meetingSubject;
-    ChipGroup meetingParticipants;
-    Button meetingTime, meetingDate, meetingRoomBtn;
+    // TODO Add the number of available place for each room + only show the room according to the number of place
+    EditText subjectEditText;
+    AutoCompleteTextView meetingParticipants;
+    TextView timingTextView, dateTextView, meetingRoomBtn;
     ImageView arrowBack;
     private Room meetingRoom;
-    String roomName;
+    String roomName, selectedDuration;
     FloatingActionButton addMeetingBtn;
     private MeetingApiService meetingApiService;
     MeetingRepository meetingRepository;
-    Spinner spinner;
+    Spinner spinnerRooms;
     int year, month, day, hour, minute;
     Calendar calendar;
     Date date;
     List<Participant> allParticipants;
     List<String> selectedParticipants;
-    int duration = 45;
+    ListView participantsListView;
+    ArrayAdapter<String> participantsListAdapter;
+    ChipGroup durationChipGroup;
+    ImageView warningTimeIcon, warningDateIcon, warningDurationIcon, warningParticipantsIcon, warningSubjectIcon, warningRoomIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,14 +72,23 @@ public class AddMeetingPage extends AppCompatActivity {
         meetingApiService = DI.getMeetingApiService();
         meetingRepository = DI.createMeetingRepository();
 
-        meetingSubject = findViewById(R.id.editText_subject);
-        meetingDate = findViewById(R.id.showDatePickerBtn);
-        meetingTime = findViewById(R.id.showTimePickerBtn);
-        meetingParticipants = findViewById(R.id.chip_group);
-        spinner = findViewById(R.id.spinner_rooms);
+        allParticipants = meetingApiService.getAllParticipants();
+
+        meetingParticipants = findViewById(R.id.participants);
+        spinnerRooms = findViewById(R.id.spinner_rooms);
         meetingRoomBtn = findViewById(R.id.open_spinner_room_btn);
         addMeetingBtn = findViewById(R.id.add_meeting_btn);
         arrowBack = findViewById(R.id.arrow_back);
+        dateTextView = findViewById(R.id.textview_date);
+        timingTextView = findViewById(R.id.textview_timing);
+        subjectEditText = findViewById(R.id.editText_subject);
+        participantsListView = findViewById(R.id.participants_list);
+        warningDateIcon = findViewById(R.id.warning_date_icon);
+        warningTimeIcon = findViewById(R.id.warning_time_icon);
+        warningDurationIcon = findViewById(R.id.warning_duration_icon);
+        warningParticipantsIcon = findViewById(R.id.warning_participants_icon);
+        warningRoomIcon = findViewById(R.id.warning_room_icon);
+        warningSubjectIcon = findViewById(R.id.warning_subject_icon);
 
         arrowBack.setOnClickListener(v -> {
             Intent intent = new Intent(AddMeetingPage.this, MainActivity.class);
@@ -79,25 +97,26 @@ public class AddMeetingPage extends AppCompatActivity {
 
         addMeetingBtn.setOnClickListener(v -> addNewMeeting());
 
-        meetingRoomBtn.setOnClickListener(v -> {
-            spinner.setVisibility(View.VISIBLE);
-            setRoomsInSpinner();
-        });
+        String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+        String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
+        timingTextView.setText(currentTime);
+        dateTextView.setText(currentDate);
+        timingTextView.setOnClickListener(v -> setTimePickerData());
+        dateTextView.setOnClickListener(v -> setDatePickerData());
 
-        meetingTime.setOnClickListener(v -> setTimePickerData());
-        meetingDate.setOnClickListener(v -> setDatePickerData());
-        setParticipantsToChipGroup();
+        setRoomsInSpinner();
+        setParticipants();
+        setDurationToChipGroup();
     }
-
     private void setRoomsInSpinner() {
         List<Room> rooms = meetingRepository.getMeetingsRoomsList();
         List<String> roomsNames = meetingRepository.getRoomsNamesList();
-        spinner.setAdapter(new ArrayAdapter<>(getApplicationContext()
-                , R.layout.spinner_items_design, roomsNames));
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerRooms.setAdapter(new ArrayAdapter<>(getApplicationContext()
+                , R.layout.spinner_item_design, roomsNames));
+        spinnerRooms.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                roomName = (String) spinner.getSelectedItem();
+                roomName = (String) spinnerRooms.getSelectedItem();
 
                 for (int i = 0; i < rooms.size(); i++) {
                     if(roomName.equals(rooms.get(i).getRoomName())) {
@@ -116,10 +135,10 @@ public class AddMeetingPage extends AppCompatActivity {
         TimePickerDialog.OnTimeSetListener onTimeSetListener = (view, selectedHour, selectedMinute) -> {
             hour = selectedHour;
             minute = selectedMinute;
-            meetingTime.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, minute));
+            timingTextView.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, minute));
         };
 
-        TimePickerDialog timePickerDialog = new TimePickerDialog(this, Theme_Material_Dialog_Alert, onTimeSetListener, hour, minute, true);
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this, R.style.MySpinnerTimePickerStyle, onTimeSetListener, hour, minute, true);
 
         timePickerDialog.setTitle("Select Time");
         timePickerDialog.show();
@@ -130,66 +149,143 @@ public class AddMeetingPage extends AppCompatActivity {
             month = selectedMonth;
             day = selectedDay;
             String date = String.format(Locale.getDefault(), "%02d/%02d/%d", day, month + 1, year);
-            meetingDate.setText(date);
+            dateTextView.setText(date);
         };
 
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, Theme_Material_Dialog_Alert, dateSetListener, year, month, day);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, R.style.MySpinnerDatePickerStyle, dateSetListener, year, month, day);
+        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
         datePickerDialog.show();
     }
 
-    private void setParticipantsToChipGroup() {
-        ChipGroup chipGroup = findViewById(R.id.chip_group);
+    private void setParticipants() {
+        List<String> allParticipantsEmails = new ArrayList<>();
+        for (Participant participant:allParticipants) {
+            allParticipantsEmails.add(participant.getEmail());
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, allParticipantsEmails);
+
+        AutoCompleteTextView participantsTextView = findViewById(R.id.participants);
+        participantsTextView.setAdapter(adapter);
+
+        selectedParticipants = new ArrayList<>();
+        List<String> textList = new ArrayList<>();
+
+        participantsListAdapter = new ArrayAdapter<>(this, R.layout.list_view_item_design,R.id.list_view_item, textList);
+        participantsListView.setAdapter(participantsListAdapter);
+        participantsTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String enteredText = s.toString().trim();
+                if (enteredText.endsWith(",") || enteredText.endsWith(";")) {
+                    for (String participant:textList) {
+                        if(s.toString().equals(participant)) {
+                            Toast.makeText(AddMeetingPage.this, R.string.same_participant_error, Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
+                    textList.add(s.toString());
+                    participantsListAdapter.notifyDataSetChanged();
+                    participantsListView.setVisibility(View.VISIBLE);
+                    String participant = enteredText.substring(0, enteredText.length() - 1);
+                    selectedParticipants.add(participant);
+                    participantsTextView.setText("");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+    }
+
+
+    private void setDurationToChipGroup() {
+        durationChipGroup = findViewById(R.id.chip_group);
 
         // Create a list of participants
-        allParticipants = meetingApiService.getAllParticipants();
-        selectedParticipants = new ArrayList<>();
+        List<String> durationList = new ArrayList<>();
+        durationList.add("30min");
+        durationList.add("1h00min");
+        durationList.add("1h30min");
+        durationList.add("2h00min");
 
         // Add a chip for each participant
-        for (Participant participant : allParticipants) {
+        for (String duration : durationList) {
             Chip chip = new Chip(this);
-            chip.setText(participant.getEmail());
-            chip.setChipIcon(ContextCompat.getDrawable(this, participant.getImage()));
+            chip.setText(duration);
             chip.setCheckedIcon(ContextCompat.getDrawable(this, R.drawable.baseline_check_24));
             chip.setChipIconSize(110);
             chip.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.header_blue)));
             chip.setTextColor(ContextCompat.getColor(this , R.color.white));
-            chip.setTextSize(18);
+            chip.setTextSize(23);
             chip.setCheckable(true);
-            chipGroup.addView(chip);
+            durationChipGroup.addView(chip);
         }
-    }
 
-    private void getAllSelectedParticipants() {
-        selectedParticipants = new ArrayList<>();
-
-        for (int i = 0; i < meetingParticipants.getChildCount(); i++) {
-            View participant = meetingParticipants.getChildAt(i);
-            if (participant instanceof Chip) {
-                Chip chip = (Chip) participant;
-                if (chip.isChecked()) {
-                    selectedParticipants.add(chip.getText().toString());
-                }
-            }
+        int selectedChipId = durationChipGroup.getCheckedChipId();
+        if (selectedChipId != -1) {
+            Chip selectedChip = findViewById(selectedChipId);
+            selectedDuration = selectedChip.getText().toString();
         }
     }
 
     private void addNewMeeting() {
-        getAllSelectedParticipants();
+        int errors = 0;
 
-         if(meetingRoom == null || meetingTime == null || meetingDate == null || meetingSubject == null || meetingParticipants == null) {
-            Toast.makeText(this, R.string.form_error, Toast.LENGTH_SHORT).show();
+        if(TextUtils.isEmpty(dateTextView.getText())) {
+            errors++;
+             warningDateIcon.setVisibility(View.VISIBLE);
+             warningTimeIcon.setVisibility(View.VISIBLE);
+         } else {
+            warningDateIcon.setVisibility(View.GONE);
+            warningTimeIcon.setVisibility(View.GONE);
+        }
+
+        if(spinnerRooms.getSelectedItem() == null) {
+            errors++;
+            warningRoomIcon.setVisibility(View.VISIBLE);
         } else {
-             calendar.set(year, month, day, hour, minute);
-             date = calendar.getTime();
+            warningRoomIcon.setVisibility(View.GONE);
+        }
 
-             Meeting meeting = new Meeting(
-                    meetingSubject.getText().toString(),
+        if(TextUtils.isEmpty(subjectEditText.getText())) {
+            errors++;
+             warningSubjectIcon.setVisibility(View.VISIBLE);
+         } else {
+            warningSubjectIcon.setVisibility(View.GONE);
+        }
+
+        if(participantsListAdapter.getCount() <= 1) {
+            errors++;
+             warningParticipantsIcon.setVisibility(View.VISIBLE);
+         } else {
+            warningParticipantsIcon.setVisibility(View.GONE);
+        }
+
+        if(durationChipGroup.getCheckedChipId() == -1) {
+            errors++;
+             warningDurationIcon.setVisibility(View.VISIBLE);
+         } else {
+            warningDurationIcon.setVisibility(View.GONE);
+        }
+
+        if (errors > 0){
+            Toast.makeText(this, R.string.form_errors, Toast.LENGTH_SHORT).show();
+        } else {
+            Log.d("error", "addNewMeeting: " + meetingParticipants.getText().toString());
+            calendar.set(year, month, day, hour, minute);
+            date = calendar.getTime();
+
+            Meeting meeting = new Meeting(
+                    subjectEditText.getText().toString(),
                     date,
-                    duration,
+                    selectedDuration,
                     selectedParticipants,
                     meetingRoom
             );

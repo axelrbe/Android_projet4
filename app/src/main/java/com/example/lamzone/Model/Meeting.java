@@ -10,12 +10,14 @@ public class Meeting implements Serializable {
 
     private String subject;
     private Date date;
+    private String duration;
     private List<String> participants;
     private Room room;
 
-    public Meeting(String subject, Date date, List<String> participants, Room room) {
+    public Meeting(String subject, Date date, String duration, List<String> participants, Room room) {
         this.subject = subject;
         this.date = date;
+        this.duration = duration;
         this.participants = participants;
         this.room = room;
     }
@@ -34,6 +36,10 @@ public class Meeting implements Serializable {
         this.date = date;
     }
 
+    public String getDuration() {return duration;}
+
+    public void setDuration(String duration) {this.duration = duration;}
+
     public List<String> getParticipants() {return participants;}
 
     public void setParticipants(List<String> participants) {
@@ -45,9 +51,8 @@ public class Meeting implements Serializable {
     public void setRoom(Room room) { this.room = room; }
 
     public String getDateFormatted() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM", Locale.getDefault());
-        String formattedDate = sdf.format(date);
-        return formattedDate;
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        return sdf.format(date);
     }
 
     public StringBuilder getTimeFormatted() {

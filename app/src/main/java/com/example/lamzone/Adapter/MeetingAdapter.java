@@ -1,4 +1,4 @@
-package com.example.lamzone.RecyclerView;
+package com.example.lamzone.Adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +22,6 @@ import java.util.List;
 public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHolder>{
 
     List<Meeting> allMeetings;
-
     public MeetingAdapter(List<Meeting> meeting) {
         this.allMeetings = meeting;
     }
@@ -37,10 +36,10 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Meeting meeting = allMeetings.get(position);
 
-        String allParticipantsEmails = String.format("%s,", meeting.getParticipants()).replace("[", "").replace("]", "");
+        String formatParticipants = String.format("%s,", meeting.getParticipants()).replace("[", "").replace("]", "");
 
         holder.meetingInfo.setText(String.format("%s-%s-%s-%s", meeting.getName(), meeting.getDateFormatted(), meeting.getTimeFormatted(), meeting.getRoom().getRoomName()));
-        holder.meetingParticipants.setText(allParticipantsEmails);
+        holder.meetingParticipants.setText(formatParticipants);
         Glide.with(holder.color.getContext())
                 .load(meeting.getRoom().getColor())
                 .apply(RequestOptions.circleCropTransform())

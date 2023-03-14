@@ -11,4 +11,6 @@
     <color name="header_blue">#0E86D4</color>
     <color name="grey">#AAAAAA</color>
     <color name="light_blue">#189AB4</color>
+    <color name="blue_green">#088F8F</color>
+    <color name="blue_grey">#B6D0E2</color>
 </resources>

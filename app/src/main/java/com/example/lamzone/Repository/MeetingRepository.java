@@ -25,4 +25,12 @@ public class MeetingRepository {
     public List<Room> getMeetingsRoomsList() {return apiService.getAllRooms();}
 
     public List<String> getRoomsNamesList() {return apiService.getAllRoomsNames();}
+
+    public List<Meeting> filterMeetingByDate(String date) {
+        return apiService.filterMeetingsByDate(date);
+    }
+
+    public List<Meeting> filterMeetingByRoom(String roomName) {
+        return apiService.filterMeetingsByRoom(roomName);
+    }
 }

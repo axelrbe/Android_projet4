@@ -37,16 +37,6 @@ public class DummyMeetingApiService implements MeetingApiService {
     }
 
     @Override
-    public List<String> getAllParticipantsEmails() {
-        List<String> participantsEmails = new ArrayList<>();
-
-        for (int i = 0; i < allParticipants.size(); i++) {
-            participantsEmails.add(allParticipants.get(i).getEmail());
-        }
-        return participantsEmails;
-    }
-
-    @Override
     public void deleteMeeting(Meeting meeting) {
         allMeetings.remove(meeting);
     }
@@ -54,5 +44,27 @@ public class DummyMeetingApiService implements MeetingApiService {
     @Override
     public void createMeeting(Meeting meeting) {
         allMeetings.add(meeting);
+    }
+
+    @Override
+    public List<Meeting> filterMeetingsByDate(String date) {
+        List<Meeting> filteredListByDate = new ArrayList<>();
+        for (Meeting meeting : allMeetings) {
+            if(meeting.getDateFormatted().equals(date)) {
+                filteredListByDate.add(meeting);
+            }
+        }
+        return filteredListByDate;
+    }
+
+    @Override
+    public List<Meeting> filterMeetingsByRoom(String roomName) {
+        List<Meeting> filteredListByRoom = new ArrayList<>();
+        for (Meeting meeting : allMeetings) {
+            if(meeting.getRoom().getRoomName().equals(roomName)) {
+                filteredListByRoom.add(meeting);
+            }
+        }
+        return filteredListByRoom;
     }
 }

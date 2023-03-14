@@ -7,23 +7,24 @@ import com.example.lamzone.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
-public abstract class MeetingGenerator {
+public class MeetingGenerator {
 
-    public static List<Meeting> DUMMY_MEETINGS = Arrays.asList();
+    public static List<Meeting> DUMMY_MEETINGS = Collections.emptyList();
 
     public static List<Room> ROOM_LIST = Arrays.asList(
-            new Room("Salle 1", R.drawable.color_brown),
-            new Room("Salle 2", R.drawable.color_purple),
-            new Room("Salle 3", R.drawable.color_blue),
-            new Room("Salle 4", R.drawable.color_yellow),
-            new Room("Salle 5", R.drawable.color_grey),
-            new Room("Salle 6", R.drawable.color_green),
-            new Room("Salle 7", R.drawable.color_pink),
-            new Room("Salle 8", R.drawable.color_red),
-            new Room("Salle 9", R.drawable.color_orange),
-            new Room("Salle 10", R.drawable.color_cyan)
+            new Room("Goomba", R.drawable.color_brown),
+            new Room("Waluigi", R.drawable.color_purple),
+            new Room("Harmonie", R.drawable.color_blue),
+            new Room("Wario", R.drawable.color_yellow),
+            new Room("Toad", R.drawable.color_grey),
+            new Room("Luigi", R.drawable.color_green),
+            new Room("Peach", R.drawable.color_pink),
+            new Room("Mario", R.drawable.color_red),
+            new Room("Bowser", R.drawable.color_orange),
+            new Room("Bob-omb", R.drawable.color_black)
     );
 
     public static List<Participant> PARTICIPANT_LIST = Arrays.asList(
@@ -41,23 +42,6 @@ public abstract class MeetingGenerator {
             new Participant("Alexandra@lamzone.fr", "Alexandra", R.drawable.img_12),
             new Participant("Lucette@lamzone.fr", "Lucette", R.drawable.img_10),
             new Participant("Anna@lamzone.fr","Anna", R.drawable.img_7)
-    );
-
-    public static List<Participant> PARTICIPANT_LIST = Arrays.asList(
-            new Participant("Paul", "Paul@lamzone.fr"),
-            new Participant("Léa", "Léa@lamzone.fr"),
-            new Participant("Chloé", "Chloé@lamzone.fr"),
-            new Participant("Sandra", "Sandra@lamzone.fr"),
-            new Participant("Arthur","Arthur@lamzone.fr"),
-            new Participant("Clément", "Clément@lamzone.fr"),
-            new Participant("patrick", "patrick@lamzone.fr"),
-            new Participant("Josette", "Josette@lamzone.fr"),
-            new Participant("Martine", "Martine@lamzone.fr"),
-            new Participant("Julien", "Julien@lamzone.fr"),
-            new Participant("José", "José@lamzone.fr"),
-            new Participant("Alexandra", "Alexandra@lamzone.fr"),
-            new Participant("Luciette", "Luciette@lamzone.fr"),
-            new Participant("Clodine","Clodine@lamzone.fr")
     );
 
     static List<Meeting> generateMeetings() {
