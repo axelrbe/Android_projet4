@@ -5,10 +5,9 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -41,10 +40,9 @@ import java.util.List;
 import java.util.Locale;
 
 public class AddMeetingPage extends AppCompatActivity {
-    // TODO Add the number of available place for each room + only show the room according to the number of place
     EditText subjectEditText;
     AutoCompleteTextView meetingParticipants;
-    TextView timingTextView, dateTextView, meetingRoomBtn;
+    TextView timingTextView, dateTextView, showSpinnerBtn;
     ImageView arrowBack;
     private Room meetingRoom;
     String roomName, selectedDuration;
@@ -76,7 +74,7 @@ public class AddMeetingPage extends AppCompatActivity {
 
         meetingParticipants = findViewById(R.id.participants);
         spinnerRooms = findViewById(R.id.spinner_rooms);
-        meetingRoomBtn = findViewById(R.id.open_spinner_room_btn);
+        showSpinnerBtn = findViewById(R.id.show_spinner_btn);
         addMeetingBtn = findViewById(R.id.add_meeting_btn);
         arrowBack = findViewById(R.id.arrow_back);
         dateTextView = findViewById(R.id.textview_date);
@@ -99,20 +97,74 @@ public class AddMeetingPage extends AppCompatActivity {
 
         String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
         String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
-        timingTextView.setText(currentTime);
-        dateTextView.setText(currentDate);
+        timingTextView.setHint(currentTime);
+        dateTextView.setHint(currentDate);
+
         timingTextView.setOnClickListener(v -> setTimePickerData());
         dateTextView.setOnClickListener(v -> setDatePickerData());
-
-        setRoomsInSpinner();
+        showSpinnerBtn.setOnClickListener(v -> setRoomsInSpinner());
         setParticipants();
         setDurationToChipGroup();
     }
+
+    private void setParticipants() {
+        List<String> allParticipantsEmails = new ArrayList<>();
+        for (Participant participant:allParticipants) {
+            allParticipantsEmails.add(participant.getEmail());
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, allParticipantsEmails);
+
+        AutoCompleteTextView participantsTextView = findViewById(R.id.participants);
+        participantsTextView.setAdapter(adapter);
+
+        selectedParticipants = new ArrayList<>();
+        List<String> textList = new ArrayList<>();
+
+        participantsListAdapter = new ArrayAdapter<>(this, R.layout.list_view_item_design,R.id.list_view_item, textList);
+        participantsListView.setAdapter(participantsListAdapter);
+
+        participantsTextView.setOnKeyListener((view, keyCode, keyEvent) -> {
+            if (keyCode == KeyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_UP) {
+                // Add the entered text to the ListView
+                String enteredText = participantsTextView.getText().toString();
+                for (String participant:textList) {
+                    if(participantsTextView.getText().toString().equals(participant)) {
+                        Toast.makeText(AddMeetingPage.this, R.string.same_participant_error, Toast.LENGTH_SHORT).show();
+                        return false;
+                    } else if (!participantsTextView.getText().toString().contains("@") || !participantsTextView.getText().toString().endsWith(".fr")) {
+                        Toast.makeText(AddMeetingPage.this, R.string.false_participant_error, Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+                }
+                textList.add(participantsTextView.getText().toString());
+                participantsListAdapter.notifyDataSetChanged();
+                participantsListView.setVisibility(View.VISIBLE);
+                showSpinnerBtn.setVisibility(View.VISIBLE);
+                spinnerRooms.setVisibility(View.GONE);
+                String participant = enteredText.substring(0, enteredText.length() - 1);
+                selectedParticipants.add(participant);
+                participantsTextView.setText("");
+                return true;
+                }
+            return false;
+            });
+    }
+
     private void setRoomsInSpinner() {
+        showSpinnerBtn.setVisibility(View.GONE);
+        spinnerRooms.setVisibility(View.VISIBLE);
         List<Room> rooms = meetingRepository.getMeetingsRoomsList();
-        List<String> roomsNames = meetingRepository.getRoomsNamesList();
+        List<String> availableRooms = new ArrayList<>();
+
+        for (Room room : rooms) {
+            if(room.getAvailablePlaces() >= participantsListView.getCount()) {
+                availableRooms.add(room.getRoomName());
+            }
+        }
+
         spinnerRooms.setAdapter(new ArrayAdapter<>(getApplicationContext()
-                , R.layout.spinner_item_design, roomsNames));
+                , R.layout.spinner_item_design, availableRooms));
+
         spinnerRooms.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -161,61 +213,15 @@ public class AddMeetingPage extends AppCompatActivity {
         datePickerDialog.show();
     }
 
-    private void setParticipants() {
-        List<String> allParticipantsEmails = new ArrayList<>();
-        for (Participant participant:allParticipants) {
-            allParticipantsEmails.add(participant.getEmail());
-        }
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, allParticipantsEmails);
-
-        AutoCompleteTextView participantsTextView = findViewById(R.id.participants);
-        participantsTextView.setAdapter(adapter);
-
-        selectedParticipants = new ArrayList<>();
-        List<String> textList = new ArrayList<>();
-
-        participantsListAdapter = new ArrayAdapter<>(this, R.layout.list_view_item_design,R.id.list_view_item, textList);
-        participantsListView.setAdapter(participantsListAdapter);
-        participantsTextView.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String enteredText = s.toString().trim();
-                if (enteredText.endsWith(",") || enteredText.endsWith(";")) {
-                    for (String participant:textList) {
-                        if(s.toString().equals(participant)) {
-                            Toast.makeText(AddMeetingPage.this, R.string.same_participant_error, Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                    }
-                    textList.add(s.toString());
-                    participantsListAdapter.notifyDataSetChanged();
-                    participantsListView.setVisibility(View.VISIBLE);
-                    String participant = enteredText.substring(0, enteredText.length() - 1);
-                    selectedParticipants.add(participant);
-                    participantsTextView.setText("");
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {}
-        });
-    }
-
-
     private void setDurationToChipGroup() {
         durationChipGroup = findViewById(R.id.chip_group);
 
-        // Create a list of participants
         List<String> durationList = new ArrayList<>();
         durationList.add("30min");
         durationList.add("1h00min");
         durationList.add("1h30min");
         durationList.add("2h00min");
 
-        // Add a chip for each participant
         for (String duration : durationList) {
             Chip chip = new Chip(this);
             chip.setText(duration);
@@ -226,6 +232,7 @@ public class AddMeetingPage extends AppCompatActivity {
             chip.setTextSize(23);
             chip.setCheckable(true);
             durationChipGroup.addView(chip);
+            durationChipGroup.check(durationChipGroup.getChildAt(0).getId());
         }
 
         int selectedChipId = durationChipGroup.getCheckedChipId();

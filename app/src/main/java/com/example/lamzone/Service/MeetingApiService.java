@@ -11,10 +11,10 @@ public interface MeetingApiService {
 
     // Get all meetings
     List<Meeting> getAllMeetings();
+    List<Meeting> getAllMeetingsForTest();
 
     List<Room> getAllRooms();
 
-    List<String> getAllRoomsNames();
     List<Participant> getAllParticipants();
 
     // Delete a meeting

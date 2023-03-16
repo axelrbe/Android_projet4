@@ -5,10 +5,12 @@ public class Room {
 
     private final int color;
     private final String roomName;
+    private final int availablePlaces;
 
-    public Room(String roomName, int color) {
+    public Room(String roomName, int color, int availablePlaces) {
         this.color = color;
         this.roomName = roomName;
+        this.availablePlaces = availablePlaces;
     }
 
     public int getColor() {
@@ -18,4 +20,6 @@ public class Room {
     public String getRoomName() {
         return roomName;
     }
+
+    public int getAvailablePlaces() { return availablePlaces; }
 }

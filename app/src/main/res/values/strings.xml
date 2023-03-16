@@ -36,7 +36,7 @@
     <string name="filtrer_par_date">Filtrer par date</string>
     <string name="filtrer_par_room">Filtrer par salle</string>
     <string name="reset_filter_btn">reset all filter btn</string>
-    <string name="add_participants">+</string>
+    <string name="add_participants">Ajouter</string>
     <string name="duration">Durée</string>
     <string name="error_icon_subject">Error icon subject</string>
     <string name="error_icon_duration">Error icon duration</string>
@@ -45,5 +45,8 @@
     <string name="error_icon_room">Error icon room</string>
     <string name="error_icon_participants">Error icon participants</string>
     <string name="same_participant_error">Vous ne pouvez pas ajouter deux fois le même participant !</string>
+    <string name="false_participant_error">Veuillez renseigner un email valide !</string>
     <string name="no_meeting_icon">Icon to show that there\'s no meeting yet</string>
+    <string name="room">Salles</string>
+    <string name="add_new_participant">Add new participant</string>
 </resources>

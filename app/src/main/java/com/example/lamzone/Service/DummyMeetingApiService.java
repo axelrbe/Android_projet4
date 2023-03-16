@@ -10,6 +10,7 @@ import java.util.List;
 public class DummyMeetingApiService implements MeetingApiService {
 
     private final List<Meeting> allMeetings = MeetingGenerator.generateMeetings();
+    private final List<Meeting> allMeetingsForTest = MeetingGenerator.generateMeetingsForTest();
     private final List<Room> allRooms = MeetingGenerator.generateRooms();
     private final List<Participant> allParticipants = MeetingGenerator.generateParticipants();
 
@@ -17,19 +18,10 @@ public class DummyMeetingApiService implements MeetingApiService {
     public List<Meeting> getAllMeetings() {
         return allMeetings;
     }
+    public List<Meeting> getAllMeetingsForTest() {return allMeetingsForTest;}
 
     @Override
     public List<Room> getAllRooms() {return allRooms;}
-
-    @Override
-    public List<String> getAllRoomsNames() {
-        List<String> roomsNames = new ArrayList<>();
-
-        for (int i = 0; i < allRooms.size(); i++) {
-            roomsNames.add(allRooms.get(i).getRoomName());
-        }
-        return roomsNames;
-    }
 
     @Override
     public List<Participant> getAllParticipants() {

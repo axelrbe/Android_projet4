@@ -58,38 +58,39 @@
                         <ListView
                             android:id="@+id/participants_list"
                             android:layout_width="match_parent"
-                            android:layout_height="60dp"
+                            android:layout_height="55dp"
                             android:nestedScrollingEnabled="true"
                             android:visibility="gone"
                             app:layout_constraintBottom_toTopOf="@+id/participants"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent" />
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <AutoCompleteTextView
                             android:id="@+id/participants"
                             android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:textAlignment="center"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:hint="@string/add_participants"
+                            android:inputType="textEmailAddress"
                             android:maxHeight="50dp"
                             android:padding="10dp"
-                            android:inputType="textEmailAddress"
-                            android:hint="@string/add_participants"
+                            android:textAlignment="center"
                             android:textColor="@color/header_blue"
                             android:textColorHint="@color/header_blue"
                             android:textSize="26sp"
                             android:textStyle="bold"
-                            android:background="@android:color/transparent"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@+id/warning_participants_icon"
-                            app:layout_constraintStart_toStartOf="parent" />
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"/>
 
                         <ImageView
                             android:id="@+id/warning_participants_icon"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
+                            android:contentDescription="@string/error_icon_participants"
                             android:src="@drawable/baseline_warning_24"
                             android:visibility="gone"
-                            android:contentDescription="@string/error_icon_participants"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -129,6 +130,24 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
+                        <TextView
+                            android:id="@+id/show_spinner_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/transparent"
+                            android:text="@string/room"
+                            android:textAllCaps="false"
+                            android:textColor="@color/header_blue"
+                            android:textSize="26sp"
+                            android:textStyle="bold"
+                            app:drawableEndCompat="@drawable/baseline_arrow_drop_down_24"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/spinner_rooms"
+                            app:layout_constraintHorizontal_bias="1.0"
+                            app:layout_constraintStart_toEndOf="@+id/open_spinner_room_btn"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="0.526" />
+
                         <Spinner
                             android:id="@+id/spinner_rooms"
                             android:layout_width="wrap_content"
@@ -137,10 +156,9 @@
                             android:contentDescription="@string/selecting_room_spinner"
                             android:gravity="center_vertical"
                             android:padding="10dp"
+                            android:visibility="gone"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@+id/warning_room_icon"
-                            app:layout_constraintHorizontal_bias="0.965"
-                            app:layout_constraintStart_toEndOf="@+id/open_spinner_room_btn"
+                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <ImageView
@@ -196,20 +214,20 @@
                             android:id="@+id/textview_date"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:minWidth="200dp"
                             android:gravity="end|center"
-                            android:text="@string/date"
+                            android:hint="@string/date"
                             android:textAllCaps="false"
                             android:textColor="@color/header_blue"
+                            android:textColorHint="@color/header_blue"
                             android:textSize="26sp"
                             android:textStyle="bold"
                             app:drawableEndCompat="@drawable/baseline_arrow_drop_down_24"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/warning_date_icon"
-                            app:layout_constraintHorizontal_bias="0.824"
                             app:layout_constraintStart_toEndOf="@+id/date_text"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_bias="0.473" />
+                            app:layout_constraintHorizontal_bias="1.0"
+                            app:layout_constraintVertical_bias="0.6" />
 
                         <ImageView
                             android:id="@+id/warning_date_icon"
@@ -254,21 +272,21 @@
                             android:id="@+id/textview_timing"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:minWidth="200dp"
                             android:layout_gravity="center_vertical"
                             android:gravity="end|center"
-                            android:text="@string/time"
+                            android:hint="@string/time"
                             android:textAllCaps="false"
                             android:textColor="@color/header_blue"
+                            android:textColorHint="@color/header_blue"
                             android:textSize="26sp"
                             android:textStyle="bold"
                             app:drawableEndCompat="@drawable/baseline_arrow_drop_down_24"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/warning_time_icon"
-                            app:layout_constraintHorizontal_bias="0.933"
                             app:layout_constraintStart_toEndOf="@+id/time_text"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_bias="0.473" />
+                            app:layout_constraintHorizontal_bias="1.0"
+                            app:layout_constraintVertical_bias="0.6" />
 
                         <ImageView
                             android:id="@+id/warning_time_icon"
@@ -413,7 +431,7 @@
                 android:src="@drawable/ic_send"
                 android:layout_margin="20dp"
                 app:fabSize="auto"
-                app:tint="@color/light_blue" />
+                app:tint="@color/header_blue" />
 
         </LinearLayout>
 

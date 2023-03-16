@@ -13,6 +13,7 @@ public class MeetingRepository {
     public MeetingRepository(MeetingApiService meetingApiService) {apiService = meetingApiService;}
 
     public List<Meeting> getMeetingsList() {return apiService.getAllMeetings();}
+    public List<Meeting> getMeetingsListForTest() {return apiService.getAllMeetingsForTest();}
 
     public void addMeeting(Meeting meeting) {
         apiService.createMeeting(meeting);
@@ -24,13 +25,7 @@ public class MeetingRepository {
 
     public List<Room> getMeetingsRoomsList() {return apiService.getAllRooms();}
 
-    public List<String> getRoomsNamesList() {return apiService.getAllRoomsNames();}
+    public List<Meeting> filterMeetingByDate(String date) {return apiService.filterMeetingsByDate(date);}
 
-    public List<Meeting> filterMeetingByDate(String date) {
-        return apiService.filterMeetingsByDate(date);
-    }
-
-    public List<Meeting> filterMeetingByRoom(String roomName) {
-        return apiService.filterMeetingsByRoom(roomName);
-    }
+    public List<Meeting> filterMeetingByRoom(String roomName) {return apiService.filterMeetingsByRoom(roomName);}
 }

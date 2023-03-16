@@ -163,9 +163,7 @@ public class MainActivity extends AppCompatActivity {
         datePickerDialog.show();
     }
 
-    private void initList() {
-        recyclerView.setAdapter(new MeetingAdapter(allMeetings));
-    }
+    private void initList() {recyclerView.setAdapter(new MeetingAdapter(allMeetings));}
 
     @Override
     public void onResume() {
