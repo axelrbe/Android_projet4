@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.example.lamzone.DI.DI;
 import com.example.lamzone.Model.Meeting;
@@ -189,13 +190,14 @@ public class AddMeetingPage extends AppCompatActivity {
         };
 
         TimePickerDialog timePickerDialog = new TimePickerDialog(this, R.style.MySpinnerTimePickerStyle, onTimeSetListener, hour, minute, true);
-
-        timePickerDialog.setTitle("Select Time");
+        timePickerDialog.setTitle(getString(R.string.time_selection));
+        timePickerDialog.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.baseline_access_time_filled_24, null));
         timePickerDialog.show();
     }
 
     private void setDatePickerData() {
-        DatePickerDialog.OnDateSetListener dateSetListener = (view, year, selectedMonth, selectedDay) -> {
+        DatePickerDialog.OnDateSetListener dateSetListener = (view, selectedYear, selectedMonth, selectedDay) -> {
+            year = selectedYear;
             month = selectedMonth;
             day = selectedDay;
             String date = String.format(Locale.getDefault(), "%02d/%02d/%d", day, month + 1, year);
@@ -207,6 +209,8 @@ public class AddMeetingPage extends AppCompatActivity {
         day = calendar.get(Calendar.DAY_OF_MONTH);
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, R.style.MySpinnerDatePickerStyle, dateSetListener, year, month, day);
+        datePickerDialog.setTitle(getString(R.string.date_selection));
+        datePickerDialog.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.baseline_date_range_24, null));
         datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
         datePickerDialog.show();
     }

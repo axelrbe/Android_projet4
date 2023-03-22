@@ -2,5 +2,7 @@
 <resources>
 
     <dimen name="spinnerTextSize">28sp</dimen>
+    <dimen name="number_picker_text_size">28sp</dimen>
+    <dimen name="title_text_size">34sp</dimen>
 
 </resources>
