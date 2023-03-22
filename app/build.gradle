@@ -13,7 +13,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -26,22 +26,34 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    testOptions {
+        unitTests.includeAndroidResources = true
+    }
 }
 
 dependencies {
 
-    implementation 'androidx.appcompat:appcompat:1.6.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.room:room-runtime:2.5.0'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    annotationProcessor 'androidx.room:room-compiler:2.5.0'
-    implementation 'org.greenrobot:eventbus:3.1.1'
-    implementation 'com.github.bumptech.glide:glide:4.11.0'
-
     implementation 'com.google.android.material:material:1.8.0'
+    annotationProcessor 'androidx.room:room-compiler:2.5.0'
 
+    // EVENT BUS
+    implementation 'org.greenrobot:eventbus:3.3.1'
+
+    // GLIDE
+    implementation 'com.github.bumptech.glide:glide:4.15.1'
+
+    // UNIT TEST
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.hamcrest:java-hamcrest:2.0.0.0'
+    // INSTRUMENTATION TEST
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:3.0.2'
+    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
 
 }

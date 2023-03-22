@@ -16,8 +16,8 @@
 
             <ImageView
                 android:id="@+id/meeting_color"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="68dp"
+                android:layout_height="68dp"
                 android:contentDescription="@string/meeting_image"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"/>
@@ -37,7 +37,7 @@
                     android:layout_toStartOf="@+id/delete_btn"
                     android:text="@string/meeting_info"
                     android:textColor="@color/black"
-                    android:textSize="22sp"
+                    android:textSize="32sp"
                     android:textStyle="bold"
                     android:maxLines="1"
                     android:ellipsize="marquee"/>
@@ -48,7 +48,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toStartOf="@+id/delete_btn"
                     android:text="@string/meeting_info"
-                    android:textSize="18sp"
+                    android:textSize="28sp"
                     android:layout_below="@+id/meeting_infos"
                     android:maxLines="1"
                     android:ellipsize="marquee"/>
@@ -58,7 +58,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:src="@drawable/ic_delete_meeting"
+                    android:src="@drawable/baseline_delete_24_tablet"
                     android:layout_alignParentEnd="true"
                     android:contentDescription="@string/delete_meeting_btn"
                     android:layout_centerVertical="true"/>

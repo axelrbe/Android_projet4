@@ -75,7 +75,7 @@ public class AddMeetingPage extends AppCompatActivity {
         meetingParticipants = findViewById(R.id.participants);
         spinnerRooms = findViewById(R.id.spinner_rooms);
         showSpinnerBtn = findViewById(R.id.show_spinner_btn);
-        addMeetingBtn = findViewById(R.id.add_meeting_btn);
+        addMeetingBtn = findViewById(R.id.save_meeting_btn);
         arrowBack = findViewById(R.id.arrow_back);
         dateTextView = findViewById(R.id.textview_date);
         timingTextView = findViewById(R.id.textview_timing);
@@ -125,7 +125,6 @@ public class AddMeetingPage extends AppCompatActivity {
 
         participantsTextView.setOnKeyListener((view, keyCode, keyEvent) -> {
             if (keyCode == KeyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_UP) {
-                // Add the entered text to the ListView
                 String enteredText = participantsTextView.getText().toString();
                 for (String participant:textList) {
                     if(participantsTextView.getText().toString().equals(participant)) {
@@ -141,8 +140,7 @@ public class AddMeetingPage extends AppCompatActivity {
                 participantsListView.setVisibility(View.VISIBLE);
                 showSpinnerBtn.setVisibility(View.VISIBLE);
                 spinnerRooms.setVisibility(View.GONE);
-                String participant = enteredText.substring(0, enteredText.length() - 1);
-                selectedParticipants.add(participant);
+                selectedParticipants.add(enteredText);
                 participantsTextView.setText("");
                 return true;
                 }
@@ -248,9 +246,14 @@ public class AddMeetingPage extends AppCompatActivity {
         if(TextUtils.isEmpty(dateTextView.getText())) {
             errors++;
              warningDateIcon.setVisibility(View.VISIBLE);
-             warningTimeIcon.setVisibility(View.VISIBLE);
          } else {
             warningDateIcon.setVisibility(View.GONE);
+        }
+
+        if(TextUtils.isEmpty(timingTextView.getText())) {
+            errors++;
+            warningTimeIcon.setVisibility(View.VISIBLE);
+        } else {
             warningTimeIcon.setVisibility(View.GONE);
         }
 
