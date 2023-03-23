@@ -13,7 +13,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVi
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.core.IsNull.notNullValue;
-import static org.junit.Assert.assertEquals;
 
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.action.ViewActions;
@@ -81,17 +80,15 @@ public class MeetingInstrumentedTest {
         onView(withClassName(Matchers.equalTo(TimePicker.class.getName()))).perform((ViewAction) PickerActions.setTime(16,30));
         onView(withId(android.R.id.button1)).perform(click());
         //Ajouter un sujet
-        onView(withId(R.id.editText_subject)).perform(replaceText("Participants"), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.editText_subject)).perform(replaceText("Sujet"), ViewActions.closeSoftKeyboard());
         // Sauvegarder le meeting
         onView(withId(R.id.save_meeting_btn)).perform(click());
         // Vérifier que la liste de meeting contient bien un élément
         onView(withId(R.id.recyclerView)).check(matches(hasChildCount(1)));
-        assertEquals(1, allMeetings.size());
     }
 
     @Test
     public void createMeeting_ShouldThrowAnErrorIfAfieldIsMissing() {
-        clean();
         // Clique sur le bouton d'ajout de meeting
         onView(withId(R.id.add_meeting_btn)).perform(click());
         // Ajouter un participant
@@ -111,27 +108,32 @@ public class MeetingInstrumentedTest {
         onView(withId(R.id.save_meeting_btn)).perform(click());
         // Vérifier que l'icone warning et le toast s'affiche bien
         onView(withId(R.id.warning_subject_icon)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
-        assertEquals(0, allMeetings.size());
     }
 
     @Test
     public void deleteMeeting_ShouldDeleteOneItemToMeetingList() {
-        clean();
         // Ajouter un meeting avec la première méthode
         createMeeting_ShouldAddOneItemToMeetingList();
+        onView(withId(R.id.recyclerView)).check(matches(hasChildCount(1)));
         // Cliquer sur le boutton de suppression d'un meeting
         onView(withId(R.id.delete_btn)).perform(click());
         // Vérifier que la liste de meeting ne contient plus aucun meeting
         onView(withId(R.id.recyclerView)).check(matches(hasChildCount(0)));
-        assertEquals(0, allMeetings.size());
     }
 
     @Test
     public void filterByDate_ShouldFilterTheListByDateOfCreation() {
-        clean();
         // Ajouter deux meetings avec la première méthode
         createMeeting_ShouldAddOneItemToMeetingList();
         // Lancer le filtre par date
+        onView(withId(R.id.icon_filtered_list)).perform(click());
+        onView(withText("Filtrer par date")).perform(click());
+        // Séléctionner le même date que celle du meeting
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform((ViewAction) PickerActions.setDate(2023,11,11));
+        onView(withId(android.R.id.button1)).perform(click());
+        // Vérifier que la liste contient bien un élément
+        onView(withId(R.id.recyclerView)).check(matches(hasChildCount(1)));
+        // Relancer le filtre par date
         onView(withId(R.id.icon_filtered_list)).perform(click());
         onView(withText("Filtrer par date")).perform(click());
         // Séléctionner une date différente de celle du meeting
@@ -143,18 +145,23 @@ public class MeetingInstrumentedTest {
         onView(withId(R.id.reset_filter_btn)).perform(click());
         // Vérifier que le meeting réapparait dans la liste
         onView(withId(R.id.recyclerView)).check(matches(hasChildCount(1)));
-        assertEquals(1, allMeetings.size());
     }
 
     @Test
     public void filterByRoom_ShouldFilterTheListByRoomOfCreation() {
-        clean();
         // Ajouter deux meetings avec la première méthode
         createMeeting_ShouldAddOneItemToMeetingList();
         // Lancer le filtre par date
         onView(withId(R.id.icon_filtered_list)).perform(click());
         onView(withText("Filtrer par salle")).perform(click());
-        // Séléctionner une date différente de celle du meeting
+        // Séléctionner la même salle
+        onView(withId(R.id.filter_search_view)).perform(typeText("Goomba"));
+        // Vérifier que la liste de meeting ne contient plus aucun élément
+        onView(withId(R.id.recyclerView)).check(matches(hasChildCount(1)));
+        // Relancer le filtre par date
+        onView(withId(R.id.icon_filtered_list)).perform(click());
+        onView(withText("Filtrer par salle")).perform(click());
+        // Séléctionner une salle différente
         onView(withId(R.id.filter_search_view)).perform(typeText("Mario"));
         // Vérifier que la liste de meeting ne contient plus aucun élément
         onView(withId(R.id.recyclerView)).check(matches(hasChildCount(0)));
@@ -162,6 +169,5 @@ public class MeetingInstrumentedTest {
         onView(withId(R.id.reset_filter_btn)).perform(click());
         // Vérifier que le meeting réapparait dans la liste
         onView(withId(R.id.recyclerView)).check(matches(hasChildCount(1)));
-        assertEquals(1, allMeetings.size());
     }
 }

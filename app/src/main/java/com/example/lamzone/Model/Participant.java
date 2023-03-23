@@ -1,7 +1,5 @@
 package com.example.lamzone.Model;
 
-import android.graphics.drawable.Drawable;
-
 public class Participant {
 
     int image;
