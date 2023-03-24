@@ -7,13 +7,22 @@ import com.example.lamzone.Model.Room;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Dummy mock for the Api
+ */
 public class DummyMeetingApiService implements MeetingApiService {
 
+    /**
+     * Get the list of meetings, participants and rooms from generator
+     */
     private final List<Meeting> allMeetings = MeetingGenerator.generateMeetings();
     private final List<Meeting> allMeetingsForTest = MeetingGenerator.generateMeetingsForTest();
     private final List<Room> allRooms = MeetingGenerator.generateRooms();
     private final List<Participant> allParticipants = MeetingGenerator.generateParticipants();
 
+    /**
+     * Create method to manipulate those list as we want
+     */
     @Override
     public List<Meeting> getAllMeetings() {
         return allMeetings;

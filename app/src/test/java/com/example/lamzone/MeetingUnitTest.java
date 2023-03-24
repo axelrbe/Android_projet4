@@ -16,6 +16,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Unit test on Meeting service
+ */
+
 public class MeetingUnitTest {
     private MeetingRepository meetingRepository;
 

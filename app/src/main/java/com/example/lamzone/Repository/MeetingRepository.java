@@ -8,8 +8,14 @@ import java.util.List;
 
 public class MeetingRepository {
 
+    /**
+     * Get Meeting service @{@link MeetingApiService}
+     */
     private final MeetingApiService apiService;
 
+    /**
+     * Store all the methods of the service, then using them in the code by calling this repository
+     */
     public MeetingRepository(MeetingApiService meetingApiService) {apiService = meetingApiService;}
 
     public List<Meeting> getMeetingsList() {return apiService.getAllMeetings();}

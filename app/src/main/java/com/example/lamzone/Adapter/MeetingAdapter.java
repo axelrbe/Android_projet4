@@ -21,6 +21,9 @@ import java.util.List;
 
 public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHolder>{
 
+    /**
+     * Adapter to put the infos in the right position
+     */
     List<Meeting> allMeetings;
     public MeetingAdapter(List<Meeting> meeting) {
         this.allMeetings = meeting;
@@ -53,6 +56,9 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHold
         return allMeetings.size();
     }
 
+    /**
+     * View holder to bind the views
+     */
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView meetingInfo, meetingParticipants;

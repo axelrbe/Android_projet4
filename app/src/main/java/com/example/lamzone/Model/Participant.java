@@ -1,10 +1,14 @@
 package com.example.lamzone.Model;
 
 public class Participant {
-
+    /** Image */
     int image;
+    /** Name and Email */
     private String name, email;
 
+    /**
+     * Constructor + Getters and Setters
+     */
     public Participant(String email, String name, int image) {
         this.email = email;
         this.name = name;

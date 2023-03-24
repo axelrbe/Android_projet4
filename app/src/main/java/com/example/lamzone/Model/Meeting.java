@@ -7,13 +7,20 @@ import java.util.List;
 import java.util.Locale;
 
 public class Meeting implements Serializable {
-
+    /** Subject */
     private String subject;
+    /** Date */
     private Date date;
+    /** Duration */
     private String duration;
+    /** List of participants */
     private List<String> participants;
+    /** Room */
     private Room room;
 
+    /**
+     * Constructor + Getters and Setters
+     */
     public Meeting(String subject, Date date, String duration, List<String> participants, Room room) {
         this.subject = subject;
         this.date = date;

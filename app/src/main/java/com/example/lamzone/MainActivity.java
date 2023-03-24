@@ -96,6 +96,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Set the pop-up menu to show the filters buttons
+     */
     private void setPopUpMenu() {
         List<String> popUpItems = new ArrayList<>();
         popUpItems.add("Filtrer par date");
@@ -124,6 +127,9 @@ public class MainActivity extends AppCompatActivity {
         popupMenu.show();
     }
 
+    /**
+     * Filter the list of meetings by room
+     */
     @SuppressLint("NotifyDataSetChanged")
     private void filterByRoom(String newText) {
         List<Meeting> meetingsFilteredByRoom = new ArrayList<>();
@@ -137,6 +143,9 @@ public class MainActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
+    /**
+     * Filter the list of meetings by date
+     */
     private void filterByDate() {
         @SuppressLint("NotifyDataSetChanged") DatePickerDialog.OnDateSetListener dateSetListener = (view, year, selectedMonth, selectedDay) -> {
             month = selectedMonth;
@@ -165,6 +174,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void initList() {recyclerView.setAdapter(new MeetingAdapter(allMeetings));}
 
+    /**
+     * Methods to manage the life cycle of the app
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -184,6 +196,9 @@ public class MainActivity extends AppCompatActivity {
         EventBus.getDefault().unregister(this);
     }
 
+    /**
+     * Fired if the user clicks on a delete button
+     */
     @Subscribe
     public void onDeleteNeighbour(DeleteMeetingEvent event) {
         meetingApiService.deleteMeeting(event.meeting);

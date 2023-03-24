@@ -108,6 +108,9 @@ public class AddMeetingPage extends AppCompatActivity {
         setDurationToChipGroup();
     }
 
+    /**
+     * Set the list of participants in AutoCompleteTextView
+     */
     private void setParticipants() {
         List<String> allParticipantsEmails = new ArrayList<>();
         for (Participant participant:allParticipants) {
@@ -149,6 +152,9 @@ public class AddMeetingPage extends AppCompatActivity {
             });
     }
 
+    /**
+     * Set all the rooms in a spinner
+     */
     private void setRoomsInSpinner() {
         showSpinnerBtn.setVisibility(View.GONE);
         spinnerRooms.setVisibility(View.VISIBLE);
@@ -182,6 +188,9 @@ public class AddMeetingPage extends AppCompatActivity {
         });
     }
 
+    /**
+     * Set the TimePicker management
+     */
     private void setTimePickerData() {
         TimePickerDialog.OnTimeSetListener onTimeSetListener = (view, selectedHour, selectedMinute) -> {
             hour = selectedHour;
@@ -195,6 +204,9 @@ public class AddMeetingPage extends AppCompatActivity {
         timePickerDialog.show();
     }
 
+    /**
+     * Set the DatePicker management
+     */
     private void setDatePickerData() {
         DatePickerDialog.OnDateSetListener dateSetListener = (view, selectedYear, selectedMonth, selectedDay) -> {
             year = selectedYear;
@@ -215,6 +227,9 @@ public class AddMeetingPage extends AppCompatActivity {
         datePickerDialog.show();
     }
 
+    /**
+     * Set the durations in a ChipGroup
+     */
     private void setDurationToChipGroup() {
         durationChipGroup = findViewById(R.id.chip_group);
 
@@ -244,6 +259,9 @@ public class AddMeetingPage extends AppCompatActivity {
         }
     }
 
+    /**
+     * method use to add a new meeting to the list
+     */
     private void addNewMeeting() {
         int errors = 0;
 
