@@ -62,7 +62,7 @@ public class DummyMeetingApiService implements MeetingApiService {
     public List<Meeting> filterMeetingsByRoom(String roomName) {
         List<Meeting> filteredListByRoom = new ArrayList<>();
         for (Meeting meeting : allMeetings) {
-            if(meeting.getRoom().getRoomName().equals(roomName)) {
+            if(meeting.getRoom().getRoomName().contains(roomName)) {
                 filteredListByRoom.add(meeting);
             }
         }

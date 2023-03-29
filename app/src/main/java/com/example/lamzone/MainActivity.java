@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -74,18 +76,11 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        iconFilter.setOnClickListener(v -> setPopUpMenu());
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                filterByRoom(newText);
-                return true;
+        iconFilter.setOnClickListener(v -> {
+            if(allMeetings.size() <= 1) {
+                Toast.makeText(this, R.string.no_meetings_error, Toast.LENGTH_SHORT).show();
+            } else {
+                setPopUpMenu();
             }
         });
 
@@ -118,6 +113,19 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case 1:
                     searchView.setQueryHint("Recherche une salle...");
+                    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                        @Override
+                        public boolean onQueryTextSubmit(String query) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onQueryTextChange(String roomText) {
+                            adapter = new MeetingAdapter(meetingApiService.filterMeetingsByRoom(roomText));
+                            recyclerView.setAdapter(adapter);
+                            return true;
+                        }
+                    });
                     searchView.setVisibility(View.VISIBLE);
                     resetFilterBtn.setVisibility(View.VISIBLE);
                     break;
@@ -128,39 +136,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Filter the list of meetings by room
-     */
-    @SuppressLint("NotifyDataSetChanged")
-    private void filterByRoom(String newText) {
-        List<Meeting> meetingsFilteredByRoom = new ArrayList<>();
-        for (Meeting meeting : allMeetings) {
-            if (meeting.getRoom().getRoomName().contains(newText)) {
-                meetingsFilteredByRoom.add(meeting);
-            }
-        }
-        adapter = new MeetingAdapter(meetingsFilteredByRoom);
-        recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-    }
-
-    /**
      * Filter the list of meetings by date
      */
+    @SuppressLint("NotifyDataSetChanged")
     private void filterByDate() {
-        @SuppressLint("NotifyDataSetChanged") DatePickerDialog.OnDateSetListener dateSetListener = (view, year, selectedMonth, selectedDay) -> {
+         DatePickerDialog.OnDateSetListener dateSetListener = (view, year, selectedMonth, selectedDay) -> {
             month = selectedMonth;
             day = selectedDay;
             selectedDate = String.format(Locale.getDefault(), "%02d/%02d/%d", day, month + 1, year);
 
-            List<Meeting> meetingsFilteredByDate = new ArrayList<>();
-            for (Meeting meeting : allMeetings) {
-                if (meeting.getDateFormatted().equals(selectedDate)) {
-                    meetingsFilteredByDate.add(meeting);
-                }
-            }
-            adapter = new MeetingAdapter(meetingsFilteredByDate);
-            recyclerView.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
+             adapter = new MeetingAdapter(meetingApiService.filterMeetingsByDate(selectedDate));
+             recyclerView.setAdapter(adapter);
         };
 
         year = calendar.get(Calendar.YEAR);

@@ -112,6 +112,7 @@ public class AddMeetingPage extends AppCompatActivity {
      * Set the list of participants in AutoCompleteTextView
      */
     private void setParticipants() {
+        // Ajouter liste des emails a autoCompleteTextView
         List<String> allParticipantsEmails = new ArrayList<>();
         for (Participant participant:allParticipants) {
             allParticipantsEmails.add(participant.getEmail());
@@ -121,6 +122,7 @@ public class AddMeetingPage extends AppCompatActivity {
         AutoCompleteTextView participantsTextView = findViewById(R.id.participants);
         participantsTextView.setAdapter(adapter);
 
+        // Ajouter les participants a la listView
         selectedParticipants = new ArrayList<>();
         List<String> textList = new ArrayList<>();
 
@@ -140,11 +142,11 @@ public class AddMeetingPage extends AppCompatActivity {
                     }
                 }
                 textList.add(participantsTextView.getText().toString());
+                selectedParticipants.add(enteredText);
                 participantsListAdapter.notifyDataSetChanged();
                 participantsListView.setVisibility(View.VISIBLE);
                 showSpinnerBtn.setVisibility(View.VISIBLE);
                 spinnerRooms.setVisibility(View.GONE);
-                selectedParticipants.add(enteredText);
                 participantsTextView.setText("");
                 return true;
                 }

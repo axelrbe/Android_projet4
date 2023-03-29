@@ -29,20 +29,20 @@ public class MeetingGenerator {
     );
 
     public static List<Participant> PARTICIPANT_LIST = Arrays.asList(
-            new Participant("Paul@lamzone.fr", "Paul", R.drawable.img_1),
-            new Participant("Leo@lamzone.fr", "Leo", R.drawable.img_2),
-            new Participant("Chloe@lamzone.fr", "Chloe", R.drawable.img_6),
-            new Participant("Sandra@lamzone.fr", "Sandra", R.drawable.img_4),
-            new Participant("Arthur@lamzone.fr","Arthur", R.drawable.img_5),
-            new Participant("Clement@lamzone.fr", "Clement", R.drawable.img_3),
-            new Participant("patrick@lamzone.fr", "patrick", R.drawable.img),
-            new Participant("Josette@lamzone.fr", "Josette", R.drawable.img_8),
-            new Participant("Martine@lamzone.fr", "Martine", R.drawable.img_9),
-            new Participant("Julien@lamzone.fr", "Julien", R.drawable.img_13),
-            new Participant("Daniel@lamzone.fr", "Daniel", R.drawable.img_11),
-            new Participant("Alexandra@lamzone.fr", "Alexandra", R.drawable.img_12),
-            new Participant("Lucette@lamzone.fr", "Lucette", R.drawable.img_10),
-            new Participant("Anna@lamzone.fr","Anna", R.drawable.img_7)
+            new Participant("Paul@lamzone.fr", "Paul"),
+            new Participant("Leo@lamzone.fr", "Leo"),
+            new Participant("Chloe@lamzone.fr", "Chloe"),
+            new Participant("Sandra@lamzone.fr", "Sandra"),
+            new Participant("Arthur@lamzone.fr","Arthur"),
+            new Participant("Clement@lamzone.fr", "Clement"),
+            new Participant("patrick@lamzone.fr", "patrick"),
+            new Participant("Josette@lamzone.fr", "Josette"),
+            new Participant("Martine@lamzone.fr", "Martine"),
+            new Participant("Julien@lamzone.fr", "Julien"),
+            new Participant("Daniel@lamzone.fr", "Daniel"),
+            new Participant("Alexandra@lamzone.fr", "Alexandra"),
+            new Participant("Lucette@lamzone.fr", "Lucette"),
+            new Participant("Anna@lamzone.fr","Anna")
     );
 
     public static Date generateRandomDate() {

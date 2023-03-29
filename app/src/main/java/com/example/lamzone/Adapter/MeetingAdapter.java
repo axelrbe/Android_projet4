@@ -41,7 +41,7 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHold
 
         String formatParticipants = String.format("%s,", meeting.getParticipants()).replace("[", "").replace("]", "");
 
-        holder.meetingInfo.setText(String.format("%s-%s-%s-%s", meeting.getName(), meeting.getDateFormatted(), meeting.getTimeFormatted(), meeting.getRoom().getRoomName()));
+        holder.meetingInfo.setText(String.format("%s-%s-%s-%s", meeting.getSubject(), meeting.getDateFormatted(), meeting.getTimeFormatted(), meeting.getRoom().getRoomName()));
         holder.meetingParticipants.setText(formatParticipants);
         Glide.with(holder.color.getContext())
                 .load(meeting.getRoom().getColor())

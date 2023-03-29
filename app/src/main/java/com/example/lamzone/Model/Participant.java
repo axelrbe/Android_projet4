@@ -1,18 +1,15 @@
 package com.example.lamzone.Model;
 
 public class Participant {
-    /** Image */
-    int image;
     /** Name and Email */
     private String name, email;
 
     /**
      * Constructor + Getters and Setters
      */
-    public Participant(String email, String name, int image) {
+    public Participant(String email, String name) {
         this.email = email;
         this.name = name;
-        this.image = image;
     }
 
     public String getName() {
@@ -30,8 +27,4 @@ public class Participant {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    public int getImage() {return image;}
-
-    public void setImage(int image) {this.image = image;}
 }

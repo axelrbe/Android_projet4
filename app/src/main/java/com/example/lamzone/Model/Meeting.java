@@ -29,11 +29,11 @@ public class Meeting implements Serializable {
         this.room = room;
     }
 
-    public String getName() {
+    public String getSubject() {
         return subject;
     }
 
-    public void setName(String name) {
+    public void setSubject(String subject) {
         this.subject = subject;
     }
 
