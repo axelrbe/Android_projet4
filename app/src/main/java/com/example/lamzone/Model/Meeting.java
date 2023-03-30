@@ -64,9 +64,6 @@ public class Meeting implements Serializable {
 
     public StringBuilder getTimeFormatted() {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
-        String time = sdf.format(this.getDate());
-        StringBuilder formattedTime = new StringBuilder(time);
-        formattedTime.setCharAt(2, 'H');
-        return formattedTime;
+        return new StringBuilder(sdf.format(date));
     }
 }
