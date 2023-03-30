@@ -133,11 +133,13 @@ public class AddMeetingPage extends AppCompatActivity {
             if (keyCode == KeyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_UP) {
                 String enteredText = participantsTextView.getText().toString();
                 for (String participant:textList) {
-                    if(participantsTextView.getText().toString().equals(participant)) {
+                    if(enteredText.equals(participant)) {
                         Toast.makeText(AddMeetingPage.this, R.string.same_participant_error, Toast.LENGTH_SHORT).show();
+                        participantsTextView.setText("");
                         return false;
-                    } else if (!participantsTextView.getText().toString().contains("@") || !participantsTextView.getText().toString().endsWith(".fr")) {
+                    } else if (!enteredText.contains("@") || !enteredText.endsWith(".fr")) {
                         Toast.makeText(AddMeetingPage.this, R.string.false_participant_error, Toast.LENGTH_SHORT).show();
+                        participantsTextView.setText("");
                         return false;
                     }
                 }

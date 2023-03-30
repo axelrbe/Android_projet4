@@ -76,13 +76,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        iconFilter.setOnClickListener(v -> {
-            if(allMeetings.size() <= 1) {
-                Toast.makeText(this, R.string.no_meetings_error, Toast.LENGTH_SHORT).show();
-            } else {
-                setPopUpMenu();
-            }
-        });
+        iconFilter.setOnClickListener(v -> setPopUpMenu());
 
         resetFilterBtn.setOnClickListener(v -> {
             resetFilterBtn.setVisibility(View.GONE);
