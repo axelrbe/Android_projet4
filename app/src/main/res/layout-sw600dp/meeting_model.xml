@@ -30,28 +30,40 @@
                 android:layout_marginStart="16dp"
                 android:layout_toEndOf="@+id/meeting_color">
 
-                <TextView
-                    android:id="@+id/meeting_infos"
-                    android:layout_width="match_parent"
+                <HorizontalScrollView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toStartOf="@+id/delete_btn"
-                    android:text="@string/meeting_info"
-                    android:textColor="@color/black"
-                    android:textSize="32sp"
-                    android:textStyle="bold"
-                    android:maxLines="1"
-                    android:ellipsize="marquee"/>
+                    android:scrollbars="none"
+                    android:layout_marginEnd="35dp">
 
-                <TextView
-                    android:id="@+id/meeting_participants"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_toStartOf="@+id/delete_btn"
-                    android:text="@string/meeting_info"
-                    android:textSize="28sp"
-                    android:layout_below="@+id/meeting_infos"
-                    android:maxLines="1"
-                    android:ellipsize="marquee"/>
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/meeting_infos"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/meeting_info"
+                            android:textColor="@color/black"
+                            android:textSize="32sp"
+                            android:textStyle="bold"
+                            android:maxLines="1"
+                            android:ellipsize="marquee"/>
+
+                        <TextView
+                            android:id="@+id/meeting_participants"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/meeting_info"
+                            android:textSize="28sp"
+                            android:layout_below="@+id/meeting_infos"
+                            android:maxLines="1"
+                            android:ellipsize="marquee"/>
+
+                    </RelativeLayout>
+
+                </HorizontalScrollView>
 
                 <ImageView
                     android:id="@+id/delete_btn"
